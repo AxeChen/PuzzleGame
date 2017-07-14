@@ -8,8 +8,6 @@ package com.mg.axe.puzzlegame;
 
 public class PuzzleGame implements Game {
 
-
-
     @Override
     public void start() {
 

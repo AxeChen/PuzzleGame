@@ -7,8 +7,24 @@
     tools:context="com.mg.axe.puzzlegame.MainActivity">
 
     <com.mg.axe.puzzlegame.PuzzleLayout
+        android:id="@+id/puzzleLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp" />
 
+    <Button
+        android:id="@+id/btnNormal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/puzzleLayout"
+        android:onClick="normalMode"
+        android:text="一般模式" />
+
+    <Button
+        android:id="@+id/btnExchange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnNormal"
+        android:onClick="exchangeMode"
+        android:text="交换模式" />
 </RelativeLayout>
