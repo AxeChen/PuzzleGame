@@ -1,4 +1,4 @@
-package com.mg.axe.puzzlegame;
+package com.mg.axe.puzzlegame.dialog;
 
 import android.app.Activity;
 import android.app.DialogFragment;
@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 
+import com.mg.axe.puzzlegame.R;
 import com.mg.axe.puzzlegame.Utils.Utils;
 import com.mg.axe.puzzlegame.module.ImageSoures;
 

@@ -1,4 +1,4 @@
-package com.mg.axe.puzzlegame;
+package com.mg.axe.puzzlegame.ui;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.mg.axe.puzzlegame.R;
 import com.mg.axe.puzzlegame.Utils.Utils;
 import com.mg.axe.puzzlegame.module.ImagePiece;
 

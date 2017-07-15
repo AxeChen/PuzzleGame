@@ -1,10 +1,12 @@
-package com.mg.axe.puzzlegame;
+package com.mg.axe.puzzlegame.game;
 
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.widget.Toast;
+
+import com.mg.axe.puzzlegame.ui.PuzzleLayout;
 
 /**
  * @Author Zaifeng

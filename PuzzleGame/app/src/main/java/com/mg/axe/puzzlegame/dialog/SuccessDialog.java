@@ -1,4 +1,4 @@
-package com.mg.axe.puzzlegame;
+package com.mg.axe.puzzlegame.dialog;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.mg.axe.puzzlegame.MainActivity">
 
-    <com.mg.axe.puzzlegame.PuzzleLayout
+    <com.mg.axe.puzzlegame.ui.PuzzleLayout
         android:id="@+id/puzzleLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -9,6 +9,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.mg.axe.puzzlegame.Utils.Utils;
+import com.mg.axe.puzzlegame.dialog.SelectImageDialog;
+import com.mg.axe.puzzlegame.dialog.SuccessDialog;
+import com.mg.axe.puzzlegame.game.PuzzleGame;
+import com.mg.axe.puzzlegame.ui.PuzzleLayout;
 
 public class MainActivity extends AppCompatActivity implements PuzzleGame.GameStateListener {
 

@@ -3,16 +3,14 @@ package com.mg.axe.puzzlegame.Utils;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.WindowManager;
 
-import com.mg.axe.puzzlegame.PuzzleLayout;
+import com.mg.axe.puzzlegame.ui.PuzzleLayout;
 import com.mg.axe.puzzlegame.R;
 import com.mg.axe.puzzlegame.module.ImagePiece;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
