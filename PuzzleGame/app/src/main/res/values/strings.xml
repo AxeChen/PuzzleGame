@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">PuzzleGame</string>
+    <string name="game_mode_normal">普通模式</string>
+    <string name="game_mode_exchange">交换模式</string>
 </resources>

@@ -9,24 +9,14 @@ package com.mg.axe.puzzlegame;
 public interface Game {
 
     /**
-     * 游戏开始
+     * 增加难度
      */
-    public void start();
+    public void addLevel();
 
     /**
-     * 游戏暂停
+     * 减少难度
      */
-    public void pause();
-
-    /**
-     * 游戏停止
-     */
-    public void stop();
-
-    /**
-     * 游戏失败
-     */
-    public void over();
+    public void reduceLevel();
 
     /**
      * 游戏赢得比赛

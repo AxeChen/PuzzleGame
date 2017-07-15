@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.mg.axe.puzzlegame.Utils.Utils;
 import com.mg.axe.puzzlegame.module.ImagePiece;
@@ -77,6 +78,8 @@ public class PuzzleLayout extends FrameLayout implements View.OnClickListener {
     //是否正在进行动画
     private boolean isAnimation = false;
 
+    private int res = R.mipmap.sdhy;
+
     public PuzzleLayout(Context context) {
         this(context, null);
     }
@@ -128,7 +131,7 @@ public class PuzzleLayout extends FrameLayout implements View.OnClickListener {
      */
     private void initBitmaps() {
         if (mBitmap == null) {
-            mBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.sdhy);
+            mBitmap = BitmapFactory.decodeResource(getResources(), res);
         }
         mImagePieces = Utils.splitImage(getContext(), mBitmap, mCount, mGameMode);
         sortImagePieces();
@@ -138,28 +141,32 @@ public class PuzzleLayout extends FrameLayout implements View.OnClickListener {
      * 对ImagePieces进行排序
      */
     private void sortImagePieces() {
-        Collections.sort(mImagePieces, new Comparator<ImagePiece>() {
-            @Override
-            public int compare(ImagePiece lhs, ImagePiece rhs) {
-                return Math.random() > 0.5 ? 1 : -1;
-            }
-        });
-
-        if (mGameMode.equals(GAME_MODE_NORMAL)) {
-            //如果是第二种模式就将空图放在最后
-            ImagePiece tempImagePieces = null;
-            int tempIndex = 0;
-            for (int i = 0; i < mImagePieces.size(); i++) {
-                ImagePiece imagePiece = mImagePieces.get(i);
-                if (imagePiece.getType() == ImagePiece.TYPE_EMPTY) {
-                    tempImagePieces = imagePiece;
-                    tempIndex = i;
-                    break;
+        try {
+            Collections.sort(mImagePieces, new Comparator<ImagePiece>() {
+                @Override
+                public int compare(ImagePiece lhs, ImagePiece rhs) {
+                    return Math.random() > 0.5 ? 1 : -1;
                 }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (mGameMode.equals(GAME_MODE_NORMAL)) {
+                //如果是第二种模式就将空图放在最后
+                ImagePiece tempImagePieces = null;
+                int tempIndex = 0;
+                for (int i = 0; i < mImagePieces.size(); i++) {
+                    ImagePiece imagePiece = mImagePieces.get(i);
+                    if (imagePiece.getType() == ImagePiece.TYPE_EMPTY) {
+                        tempImagePieces = imagePiece;
+                        tempIndex = i;
+                        break;
+                    }
+                }
+                if (tempImagePieces == null) return;
+                mImagePieces.remove(tempIndex);
+                mImagePieces.add(mImagePieces.size(), tempImagePieces);
             }
-            if (tempImagePieces == null) return;
-            mImagePieces.remove(tempIndex);
-            mImagePieces.add(mImagePieces.size(), tempImagePieces);
         }
     }
 
@@ -209,6 +216,11 @@ public class PuzzleLayout extends FrameLayout implements View.OnClickListener {
             return;
         }
         this.mGameMode = gameMode;
+        reset();
+    }
+
+    public void reset() {
+        mItemWidth = (mViewWidth - mPadding * 2 - mMargin * (mCount - 1)) / mCount;
         if (mImagePieces != null) {
             mImagePieces.clear();
         }
@@ -217,6 +229,40 @@ public class PuzzleLayout extends FrameLayout implements View.OnClickListener {
         removeAllViews();
         initBitmaps();
         initBitmapsWidth();
+    }
+
+    /**
+     * 添加count 最多每行7个
+     */
+    public boolean addCount() {
+        mCount++;
+        if (mCount > 7) {
+            mCount--;
+            return false;
+        }
+        reset();
+        return true;
+    }
+
+    /**
+     * 改变图片
+     */
+    public void changeRes(int res) {
+        this.res = res;
+        reset();
+    }
+
+    /**
+     * 减少count 最少每行三个，否则普通模式无法游戏
+     */
+    public boolean reduceCount() {
+        mCount--;
+        if (mCount < 3) {
+            mCount++;
+            return false;
+        }
+        reset();
+        return true;
     }
 
     @Override
@@ -262,20 +308,20 @@ public class PuzzleLayout extends FrameLayout implements View.OnClickListener {
         int line = mImagePieces.size() / mCount;
         ImagePiece imagePiece = null;
         if (index < mCount) {
-            //第一行
-            imagePiece = checkCurrentLine(index, imagePiece);
+            //第一行（需要额外计算，下一行是否有空图）
+            imagePiece = checkCurrentLine(index);
             //判断下一行同一列的图片是否为空
             imagePiece = checkOtherline(index + mCount, imagePiece);
         } else if (index < (line - 1) * mCount) {
-            //中间的
-            imagePiece = checkCurrentLine(index, imagePiece);
+            //中间的行（需要额外计算，上一行和下一行是否有空图）
+            imagePiece = checkCurrentLine(index);
             //判断上一行同一列的图片是否为空
             imagePiece = checkOtherline(index - mCount, imagePiece);
             //判断下一行同一列的图片是否为空
             imagePiece = checkOtherline(index + mCount, imagePiece);
         } else {
-            //第一行
-            imagePiece = checkCurrentLine(index, imagePiece);
+            //最后一行（需要额外计算，上一行是否有空图））
+            imagePiece = checkCurrentLine(index);
             //检查上一行同一列有没有空图
             imagePiece = checkOtherline(index - mCount, imagePiece);
         }
@@ -311,10 +357,8 @@ public class PuzzleLayout extends FrameLayout implements View.OnClickListener {
      * @param index
      * @return
      */
-    private ImagePiece checkCurrentLine(int index, ImagePiece imagePiece) {
-        if (imagePiece != null) {
-            return imagePiece;
-        }
+    private ImagePiece checkCurrentLine(int index) {
+        ImagePiece imagePiece = null;
         //第一行
         if (index % mCount == 0) {
             //第一个
@@ -383,16 +427,20 @@ public class PuzzleLayout extends FrameLayout implements View.OnClickListener {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
+                int fristIndex = firstPiece.getIndex();
+                int secondeIndex = secondPiece.getIndex();
                 if (mFirst != null) {
                     mFirst.setColorFilter(null);
                     mFirst.setVisibility(VISIBLE);
                     mFirst.setImageBitmap(secondBitmap);
                     firstPiece.setBitmap(secondBitmap);
+                    firstPiece.setIndex(secondeIndex);
                 }
                 if (mSecond != null) {
                     mSecond.setVisibility(VISIBLE);
                     mSecond.setImageBitmap(firstBitmap);
                     secondPiece.setBitmap(firstBitmap);
+                    secondPiece.setIndex(fristIndex);
                 }
                 if (mGameMode.equals(GAME_MODE_NORMAL)) {
                     firstPiece.setType(secondType);
@@ -405,6 +453,12 @@ public class PuzzleLayout extends FrameLayout implements View.OnClickListener {
                 mSecond = null;
                 isAnimation = false;
                 invalidate();
+                if (checkSuccess()) {
+                    Toast.makeText(getContext(), "成功!", Toast.LENGTH_SHORT).show();
+                    if (mSuccessListener != null) {
+                        mSuccessListener.success();
+                    }
+                }
             }
 
             @Override
@@ -431,5 +485,42 @@ public class PuzzleLayout extends FrameLayout implements View.OnClickListener {
             isAddAnimatorLayout = true;
             addView(mAnimLayout);
         }
+    }
+
+    /**
+     * 检测是否成功
+     */
+    private boolean checkSuccess() {
+
+        boolean isSuccess = true;
+        for (int i = 0; i < mImagePieces.size(); i++) {
+            ImagePiece imagePiece = mImagePieces.get(i);
+            if (i != imagePiece.getIndex()) {
+                isSuccess = false;
+            }
+        }
+        return isSuccess;
+    }
+
+    public Bitmap getBitmap() {
+        return mBitmap;
+    }
+
+    public int getRes() {
+        return res;
+    }
+
+    public int getCount() {
+        return mCount;
+    }
+
+    private SuccessListener mSuccessListener;
+
+    public void addSuccessListener(SuccessListener successListener) {
+        this.mSuccessListener = successListener;
+    }
+
+    public interface SuccessListener {
+        public void success();
     }
 }
