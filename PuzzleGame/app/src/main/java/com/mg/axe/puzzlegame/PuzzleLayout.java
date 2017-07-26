@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.mg.axe.puzzlegame.Utils.Utils;
 import com.mg.axe.puzzlegame.module.ImagePiece;
@@ -378,7 +379,8 @@ public class PuzzleLayout extends FrameLayout implements View.OnClickListener {
         final int secondType = secondPiece.getType();
         final Bitmap firstBitmap = mImagePieces.get(mFirst.getId()).getBitmap();
         final Bitmap secondBitmap = mImagePieces.get(mSecond.getId()).getBitmap();
-
+        final int firstIndex = mImagePieces.get(mFirst.getId()).getIndex();
+        final int secondIndex = mImagePieces.get(mFirst.getId()).getIndex();
         secondAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
@@ -388,11 +390,13 @@ public class PuzzleLayout extends FrameLayout implements View.OnClickListener {
                     mFirst.setVisibility(VISIBLE);
                     mFirst.setImageBitmap(secondBitmap);
                     firstPiece.setBitmap(secondBitmap);
+                    firstPiece.setIndex(secondIndex);
                 }
                 if (mSecond != null) {
                     mSecond.setVisibility(VISIBLE);
                     mSecond.setImageBitmap(firstBitmap);
                     secondPiece.setBitmap(firstBitmap);
+                    secondPiece.setIndex(firstIndex);
                 }
                 if (mGameMode.equals(GAME_MODE_NORMAL)) {
                     firstPiece.setType(secondType);
@@ -405,6 +409,12 @@ public class PuzzleLayout extends FrameLayout implements View.OnClickListener {
                 mSecond = null;
                 isAnimation = false;
                 invalidate();
+
+                //验证拼图是否完成
+                boolean flag = checkGame();
+                if (flag) {
+                    Toast.makeText(getContext(), "游戏成功", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
@@ -431,5 +441,21 @@ public class PuzzleLayout extends FrameLayout implements View.OnClickListener {
             isAddAnimatorLayout = true;
             addView(mAnimLayout);
         }
+    }
+
+    /**
+     * 验证拼图是否完成拼接
+     *
+     * @return
+     */
+    private boolean checkGame() {
+        boolean flag = true;
+        for (int i = 0; i < mImagePieces.size(); i++) {
+            if (i != mImagePieces.get(i).getIndex()) {
+                flag = false;
+                break;
+            }
+        }
+        return flag;
     }
 }
