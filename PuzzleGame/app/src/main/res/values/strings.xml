@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">PuzzleGame</string>
+    <string name="game_mode_normal">普通模式</string>
+    <string name="game_mode_exchange">交换模式</string>
+    <string name="already_the_most_level">已经是最高等级</string>
+    <string name="already_the_less_level">已经是最低等级</string>
+    <string name="success">成功！</string>
+    <string name="success_description">你已经完成拼图，是否挑战下一个等级？</string>
+    <string name="next_level">下一等级</string>
+    <string name="cancel">取消</string>
+
 </resources>

@@ -6,25 +6,70 @@
     android:layout_height="match_parent"
     tools:context="com.mg.axe.puzzlegame.MainActivity">
 
-    <com.mg.axe.puzzlegame.PuzzleLayout
+    <com.mg.axe.puzzlegame.ui.PuzzleLayout
         android:id="@+id/puzzleLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp" />
 
-    <Button
-        android:id="@+id/btnNormal"
+    <ImageView
+        android:id="@+id/ivSrcImg"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:onClick="changeImage"
+        android:layout_below="@+id/puzzleLayout"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/ivSrcImg"
+        android:layout_alignRight="@+id/ivSrcImg"
+        android:layout_below="@+id/ivSrcImg"
+        android:gravity="center"
+        android:text="点击选择图片"
+        android:textSize="12sp" />
+
+    <Spinner
+        android:id="@+id/modeSpinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/puzzleLayout"
-        android:onClick="normalMode"
-        android:text="一般模式" />
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/ivSrcImg"
+        android:entries="@array/mode_type"
+        android:gravity="center" />
 
-    <Button
-        android:id="@+id/btnExchange"
+    <TextView
+        android:id="@+id/tvLevel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btnNormal"
-        android:onClick="exchangeMode"
-        android:text="交换模式" />
+        android:layout_below="@+id/puzzleLayout"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/modeSpinner"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btnAddLevel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/modeSpinner"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/ivSrcImg"
+        android:onClick="addLevel"
+        android:text="增加难度" />
+
+    <Button
+        android:id="@+id/btnReduceLevel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/modeSpinner"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/btnAddLevel"
+        android:onClick="reduceLevel"
+        android:text="减少难度" />
+
 </RelativeLayout>
