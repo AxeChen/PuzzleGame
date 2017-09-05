@@ -63,7 +63,7 @@ public class PuzzleGame implements Game, PuzzleLayout.SuccessListener {
 
     @Override
     public void changeMode(String gameMode) {
-        puzzleLayou.changeMode(PuzzleLayout.GAME_MODE_NORMAL);
+        puzzleLayou.changeMode(gameMode);
     }
 
     @Override
