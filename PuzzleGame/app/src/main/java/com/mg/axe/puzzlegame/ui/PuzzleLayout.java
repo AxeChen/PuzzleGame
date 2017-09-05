@@ -423,8 +423,8 @@ public class PuzzleLayout extends FrameLayout implements View.OnClickListener {
         final int secondType = secondPiece.getType();
         final Bitmap firstBitmap = mImagePieces.get(mFirst.getId()).getBitmap();
         final Bitmap secondBitmap = mImagePieces.get(mSecond.getId()).getBitmap();
-        final int firstIndex = mImagePieces.get(mFirst.getId()).getIndex();
-        final int secondIndex = mImagePieces.get(mFirst.getId()).getIndex();
+//        final int firstIndex = mImagePieces.get(mFirst.getId()).getIndex();
+//        final int secondIndex = mImagePieces.get(mFirst.getId()).getIndex();
         secondAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
@@ -436,7 +436,7 @@ public class PuzzleLayout extends FrameLayout implements View.OnClickListener {
                     mFirst.setVisibility(VISIBLE);
                     mFirst.setImageBitmap(secondBitmap);
                     firstPiece.setBitmap(secondBitmap);
-                    firstPiece.setIndex(secondIndex);
+                    firstPiece.setIndex(secondeIndex);
                 }
                 if (mSecond != null) {
                     mSecond.setVisibility(VISIBLE);
